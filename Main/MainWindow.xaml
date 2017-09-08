@@ -39,6 +39,32 @@
                     </StackPanel>
                 </Grid>                
             </TabItem>
+            <TabItem Header="Watermark">
+                <Grid Background="#ffe5e5e5">
+                    <StackPanel Orientation="Vertical" >
+                        <GroupBox Header="目標圖檔" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0" Height="65" Width="645">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBox Name="WartermarkTargetImagePathTextBox"  HorizontalAlignment="Left" Height="23" Margin="10,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="536" IsReadOnly="True"/>
+                                <Button Content="選取檔案" HorizontalAlignment="Left" Margin="5,10,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="1.247,-0.265" Click="WatermarkTargetImagePathButton_Click"/>
+                            </StackPanel>
+                        </GroupBox>
+                        <GroupBox Header="圖片預覽" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0" Height="200" Width="645">
+                            <StackPanel Orientation="Horizontal"  >
+                                <StackPanel Orientation="Vertical" Margin="10,10,0,0" HorizontalAlignment="Center">
+                                    <Image Name="WartermarkTargetImage" Width="100" Height="100" />
+                                    <Label Content="目標圖檔" />
+                                </StackPanel>
+                                <StackPanel Orientation="Vertical" Margin="10,10,0,0" HorizontalAlignment="Center" >
+                                    <Image Name="WartermarkPreviewImage" Width="100" Height="100" />
+                                    <Label Content="套印預覽" />
+                                </StackPanel>
+                            </StackPanel>
+                        </GroupBox>
+                        <Button Name="WatermarkButton" Content="確定" HorizontalAlignment="Left" Margin="538,10,0,0" VerticalAlignment="Top" Width="115" 
+                                Click="WatermarkImageButton_Click" Height="36"/>
+                    </StackPanel>
+                </Grid>
+            </TabItem>
         </TabControl>
     </Grid>
 </Window>

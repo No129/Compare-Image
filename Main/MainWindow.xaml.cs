@@ -1,19 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Main
 {
@@ -106,6 +95,56 @@ namespace Main
             return objReturn;
         }
 
+        private void WatermarkTargetImagePathButton_Click(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Forms.OpenFileDialog objFileDialog = new System.Windows.Forms.OpenFileDialog();
 
+            objFileDialog.Title = "請選取目標 Image 檔案";
+            objFileDialog.InitialDirectory = "C:\\";
+            if (objFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                this.WartermarkTargetImagePathTextBox.Text = objFileDialog.FileName;
+                this.WartermarkTargetImage.Source = this.LoadImage(this.WartermarkTargetImagePathTextBox.Text);
+            }
+        }
+
+        private void WatermarkImageButton_Click(object sender, RoutedEventArgs e)
+        {
+            // 建立一個 Bitmap
+            Bitmap objTargetImage = new Bitmap(WartermarkTargetImagePathTextBox.Text);
+
+            // 取得浮水印文字內容及其大小、顯示位置
+            string sWaterMark = "樣本";
+            int FontSize = ((objTargetImage.Width) / (sWaterMark.Length * 3));
+            int x = objTargetImage.Width / 2;
+            int y = (objTargetImage.Height / 2) - (FontSize * 3 / 2);
+
+            // 字體樣式
+            StringFormat DrawFormat = new StringFormat();
+
+            DrawFormat.Alignment = StringAlignment.Center;
+            DrawFormat.FormatFlags = StringFormatFlags.NoWrap;
+
+            // 把字串畫到圖片中
+            Graphics objWatermarkGraphics = Graphics.FromImage(objTargetImage);
+
+            objWatermarkGraphics.DrawString(sWaterMark,
+                new Font("微軟正黑體",
+                FontSize, System.Drawing.FontStyle.Bold),
+                new SolidBrush(Color.FromArgb(255, 0, 0, 0)), x, y, DrawFormat);
+
+            // 把檔案進行暫存處理 --> 本例先行儲存至暫存資料匣中 (即 %temp% )
+            string sTempPath = string.Format("{0}\\{1}.jpg", System.IO.Path.GetTempPath(), DateTime.Now.ToString("yyMMdd-hhmmss"));
+
+            objTargetImage.Save(sTempPath);
+
+            // 把剛才加上浮水印的檔案顯示在 pictureBox2 中
+            this.WartermarkPreviewImage.Source = this.LoadImage(sTempPath);
+
+            if (objWatermarkGraphics != null)
+            {
+                objWatermarkGraphics.Dispose();
+            }
+        }
     }
 }
